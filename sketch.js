@@ -118,6 +118,124 @@ class OnslaughtTitle {
 
 
 /*
+  This class creates cannon annimation.
+*/
+class CannonAnimation {
+  /*
+    The constructor sets the starting properties of the cannon.
+    var x - the x position of the cannon
+    var y - the y position of the cannon
+    var angle - the angle to face
+  */
+  constructor(x, y, angle) {
+    this.x = x;
+    this.y = y;
+    this.angle = angle;
+    this.cannonballs = [];
+    this.shootTimer = 0;
+  }
+  
+  /*
+    This function draws the cannon.
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    
+    // draw the base of the cannon
+    fill(100);
+    stroke(0);
+    strokeWeight(4);
+    ellipse(0, 0, 80, 80);
+
+    // Rotate to face orb
+    rotate(this.angle);
+    
+    // draw the barrel
+    fill(50);
+    ellipse(-16, 0, 20, 40);
+    rect(-16, -20, 56, 40);
+    ellipse(40, 0, 23, 46);
+    fill(0);
+    ellipse(40, 0, 12, 24);
+    strokeWeight(1);
+    
+    pop();
+  }
+  
+  /*
+    This finds the orbs in range and shoots them.
+  */
+  shoot() {
+    if (this.shootTimer <= 0) {
+      this.cannonballs.push(new CannonballAnimation(this.x, this.y, this.angle));
+      this.shootTimer = 75;
+    }
+    else {
+      this.shootTimer -= 1;
+    }
+  }
+  
+  /*
+    Handle the movement and drawing of cannonballs.
+  */
+  cannonball() {
+    for (var i = this.cannonballs.length - 1; i >= 0; i--) {
+      var cannonball = this.cannonballs[i];
+      cannonball.draw();
+      cannonball.move();
+      
+      // delete if off screen
+      if (cannonball.x > 850 || cannonball.y > 650 || cannonball.x < -50 || cannonball.y < -50) {
+        this.cannonballs.splice(i, 1);
+      }
+    }
+  }
+}
+
+/*
+  This class creates cannonballs shoot by the cannon tower animation.
+*/
+class CannonballAnimation {
+  /*
+    The constructor sets the starting properties of the cannonball.
+    var x - the x position of the cannonball
+    var y - the y position of the cannonball
+    var angle - the direction to travell
+  */
+  constructor(x, y, angle) {
+    this.x = x;
+    this.y = y;
+    this.speed = 4;
+    this.dx = cos(angle) * this.speed;
+    this.dy = sin(angle) * this.speed;
+  }
+  
+  /*
+    Draws the cannonball.
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    fill(50);
+    stroke(0);
+    strokeWeight(4);
+    ellipse(0, 0, 30, 30);
+    strokeWeight(1);
+    pop();
+  }
+  
+  /*
+    Move the cannonball.
+  */
+  move() {
+    this.x += this.dx;
+    this.y += this.dy;
+  }
+}
+
+
+/*
   This class creates a start button that can be pressed to mobve from the title screen to the options screen.
 */
 class StartButton {
@@ -1167,6 +1285,11 @@ class Cannonball {
 var orbTitle = new OrbTitle(-104, 210);
 var onslaughtTitle = new OnslaughtTitle(1100, 310);
 
+// cannon animations
+var cannonAnimationOne;
+var cannonAnimationTwo;
+
+
 // booleans for progressing through menus and game
 var titleScreen = true;
 var instructionScreen = false;
@@ -1232,6 +1355,10 @@ function setup() {
   createCanvas(800, 600);
   textFont('Palatino Linotype');
   
+  // cannon animations
+  cannonAnimationOne = new CannonAnimation(200, 190, -PI/4);
+  cannonAnimationTwo = new CannonAnimation(600, 190, -3 * PI/4);
+  
   // initialize tilemaps
   instructionsOneTilemapArray = ["xxxxxxxxsx",
                                  "        v ",
@@ -1258,7 +1385,7 @@ function setup() {
                               { type: 'b', path: instructionsOneTilemap.paths[0], spawnTime: 120 },
                               { type: 'b', path: instructionsOneTilemap.paths[0], spawnTime: 180 },
                               { type: 'b', path: instructionsOneTilemap.paths[0], spawnTime: 210 }];
-  instructionsWaveOne = new WaveCreator(575, 185, instructionsOneWaveArray, 700);
+  instructionsWaveOne = new WaveCreator(575, 185, instructionsOneWaveArray, 600);
   instructionsWaveOne.initialize();
   
   // tinstuctions two wave array
@@ -1276,6 +1403,7 @@ function setup() {
   instructionsTwoCannonOne = new Cannon(215, 255, instructionsWaveTwo.wave);
   instructionsTwoCannonTwo = new Cannon(200, 325, instructionsWaveTwo.wave);
 }
+
 
 /*
   This function draws and handles movement and other game functions every frame.
@@ -1400,6 +1528,15 @@ function titleScreenDraw() {
     rect(290, 413, 220, 60);
     // Draw the start button
     startButton.draw();
+    
+    // draw the cannon animataion
+    cannonAnimationOne.cannonball();
+    cannonAnimationOne.draw();
+    cannonAnimationOne.shoot();
+    
+    cannonAnimationTwo.cannonball();
+    cannonAnimationTwo.draw();
+    cannonAnimationTwo.shoot();
   }
 }
 
@@ -1443,11 +1580,11 @@ function instructionScreenDraw() {
     instructionsWaveOne.spawnOrbs();
     // restart the wave after its timer
     if (instructionsWaveOne.waveTimer <= 0) {
-      instructionsWaveOne.waveTimer = 900;
+      instructionsWaveOne.waveTimer = 600;
       instructionsWaveOne.initialize();
       // reset health and coins after one wave
       instructionsCoins = 0;
-      instructionsLives =3;
+      instructionsLives = 3;
     }
     else {
       instructionsWaveOne.waveTimer -= 1;
@@ -1482,7 +1619,7 @@ function instructionScreenDraw() {
     instructionsWaveTwo.spawnOrbs();
     // restart the wave after its timer
     if (instructionsWaveTwo.waveTimer <= 0) {
-      instructionsWaveTwo.waveTimer = 700;
+      instructionsWaveTwo.waveTimer = 800;
       instructionsWaveTwo.initialize();
       // reset health and coins after one wave
       instructionsCoins = 0;
