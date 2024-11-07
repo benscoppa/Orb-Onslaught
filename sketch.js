@@ -765,13 +765,13 @@ class TileMap {
   
   /*
     find all posible paths handling  branches.
-    var x - the current x position of the path
-    var y - the current y position of the path
+    var startX - the starting x position of the path
+    var startY - the starting y position of the path
   */
-  traversePaths(x, y) {
+  traversePaths(startX, startY) {
     var pathPoints = [];
     var visited = new Set();
-    var stack = [{ x, y, path: [...pathPoints] }];
+    var stack = [{ x: startX, y: startY, path: [...pathPoints] }];
 
     // iterate through the stack
     while (stack.length > 0) {
@@ -791,25 +791,18 @@ class TileMap {
         continue;
       }
 
-      // create braches for each seperate path
-      var branches = [];
-
+      // add each valid path from this tile to stack
       if (this.isPathTile(x, y + 1) && !visited.has(`${x},${y + 1}`)) {
-        branches.push({ x, y: y + 1, path: [...path] });
+        stack.push({ x, y: y + 1, path: [...path] });
       }
       if (this.isPathTile(x + 1, y) && !visited.has(`${x + 1},${y}`)) {
-        branches.push({ x: x + 1, y, path: [...path] });
+        stack.push({ x: x + 1, y, path: [...path] });
       }
       if (this.isPathTile(x, y - 1) && !visited.has(`${x},${y - 1}`)) {
-        branches.push({ x, y: y - 1, path: [...path] });
+        stack.push({ x, y: y - 1, path: [...path] });
       }
       if (this.isPathTile(x - 1, y) && !visited.has(`${x - 1},${y}`)) {
-        branches.push({ x: x - 1, y, path: [...path] });
-      }
-
-      // create a seperate path for each branch
-      for (var i = 0; i <  branches.length; i++) {
-        stack.push(branches[i]);
+        stack.push({ x: x - 1, y, path: [...path] });
       }
     }
   }
@@ -1280,6 +1273,10 @@ class Cannonball {
   }
 }
 
+// handle scaling to fit window
+var baseWidth = 800;
+var baseHeight = 600;
+var windowScale;
 
 // Title objects
 var orbTitle = new OrbTitle(-104, 210);
@@ -1352,8 +1349,10 @@ var instructionsLives = 3;
   This function sets up the game
 */
 function setup() {
-  createCanvas(800, 600);
+  // createCanvas(800, 600);
+  createCanvas(windowWidth, windowHeight);
   textFont('Palatino Linotype');
+  updateWindowScale();
   
   // cannon animations
   cannonAnimationOne = new CannonAnimation(200, 190, -PI/4);
@@ -1411,6 +1410,10 @@ function setup() {
 function draw() {
   background(90, 170, 90);
   
+  // scale based on window
+  push();
+  scale(windowScale);
+  
   // handle any active button timers
   for (var i = buttons.length - 1; i >= 0; i--) {
     button = buttons[i];
@@ -1443,6 +1446,15 @@ function draw() {
     optionScreen = false;
     // start game function
   }
+  
+  pop();
+}
+
+/*
+  This function gets proper scale based on window.
+*/
+function updateWindowScale() {
+  windowScale = min(windowWidth / baseWidth, windowHeight / baseHeight);
 }
 
 
@@ -1451,9 +1463,9 @@ function draw() {
 */
 function mouseClicked() {
   
-  // Get the mouse position
-  var xCor = mouseX;
-  var yCor = mouseY;
+  // Get the mouse position adjusted for window size
+  var xCor = mouseX / windowScale;
+  var yCor = mouseY / windowScale;
   
   // If the game is in the title screen after title animation
   if (titleScreen === true && onslaughtTitle.x === 400) {
