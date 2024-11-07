@@ -623,8 +623,6 @@ class CornerPathTile {
     // Outline for path
     fill(0);
     arc(this.size / 4, this.size / 4, 3 * this.size / 2, 3 * this.size / 2, PI, PI + HALF_PI, PIE);
-    rect(this.size / 2, -this.size / 2 + 2.5, -this.size / 4, -2.5);
-    rect(-this.size / 2 + 2.5, this.size / 2, -2.5, -this.size / 4);
 
     // Actual path
     fill(210, 180, 140);
@@ -632,8 +630,12 @@ class CornerPathTile {
     rect(this.size / 2, -this.size / 2 + 2.5, -this.size / 4 - 1, this.size - 2.5);
     rect(-this.size / 2 + 2.5, this.size / 2, this.size - 2.5, -this.size / 4 - 1);
     
-    // inside corner outline
+    // add more outline for straight section on ends of turn
     fill(0);
+    rect(this.size / 2, -this.size / 2 + 2.5, -this.size / 4 - 5, -2.5);
+    rect(-this.size / 2 + 2.5, this.size / 2, -2.5, -this.size / 4 - 5);
+    
+    // inside corner outline
     arc(this.size / 2, this.size / 2, 5, 5, PI, PI + HALF_PI, PIE);
     pop();
   }
@@ -1277,6 +1279,7 @@ class Cannonball {
 var baseWidth = 800;
 var baseHeight = 600;
 var windowScale;
+var xOffset, yOffset;
 
 // Title objects
 var orbTitle = new OrbTitle(-104, 210);
@@ -1408,11 +1411,17 @@ function setup() {
   This function draws and handles movement and other game functions every frame.
 */
 function draw() {
-  background(90, 170, 90);
+  // black background
+  background(0);
   
   // scale based on window
   push();
+  translate(xOffset, yOffset)
   scale(windowScale);
+  
+  // draw the real game background
+  fill(90, 170, 90);
+  rect(0, 0, baseWidth, baseHeight);
   
   // handle any active button timers
   for (var i = buttons.length - 1; i >= 0; i--) {
@@ -1455,6 +1464,8 @@ function draw() {
 */
 function updateWindowScale() {
   windowScale = min(windowWidth / baseWidth, windowHeight / baseHeight);
+  xOffset = (windowWidth - baseWidth * windowScale) / 2;
+  yOffset = (windowHeight - baseHeight * windowScale) / 2;
 }
 
 
@@ -1464,8 +1475,8 @@ function updateWindowScale() {
 function mouseClicked() {
   
   // Get the mouse position adjusted for window size
-  var xCor = mouseX / windowScale;
-  var yCor = mouseY / windowScale;
+  var xCor = (mouseX - xOffset) / windowScale;
+  var yCor = (mouseY - yOffset) / windowScale;
   
   // If the game is in the title screen after title animation
   if (titleScreen === true && onslaughtTitle.x === 400) {
