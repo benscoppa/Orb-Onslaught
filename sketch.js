@@ -1279,7 +1279,7 @@ class Cannonball {
 var baseWidth = 800;
 var baseHeight = 600;
 var windowScale;
-var xOffset, yOffset;
+var canvas;
 
 // Title objects
 var orbTitle = new OrbTitle(-104, 210);
@@ -1348,14 +1348,18 @@ var instructionsTwoCannonTwo;
 var instructionsCoins = 0;
 var instructionsLives = 3;
 
+
 /*
   This function sets up the game
 */
 function setup() {
-  // createCanvas(800, 600);
-  createCanvas(windowWidth, windowHeight);
-  textFont('Palatino Linotype');
+  
+  // create canvas
+  canvas = createCanvas(baseWidth, baseHeight);
+  // scale canavs to window
   updateWindowScale();
+  // change the font
+  textFont('Palatino Linotype');
   
   // cannon animations
   cannonAnimationOne = new CannonAnimation(200, 190, -PI/4);
@@ -1411,17 +1415,12 @@ function setup() {
   This function draws and handles movement and other game functions every frame.
 */
 function draw() {
-  // black background
-  background(0);
+  // grass background
+  background(90, 170, 90);
   
   // scale based on window
   push();
-  translate(xOffset, yOffset)
   scale(windowScale);
-  
-  // draw the real game background
-  fill(90, 170, 90);
-  rect(0, 0, baseWidth, baseHeight);
   
   // handle any active button timers
   for (var i = buttons.length - 1; i >= 0; i--) {
@@ -1464,8 +1463,14 @@ function draw() {
 */
 function updateWindowScale() {
   windowScale = min(windowWidth / baseWidth, windowHeight / baseHeight);
-  xOffset = (windowWidth - baseWidth * windowScale) / 2;
-  yOffset = (windowHeight - baseHeight * windowScale) / 2;
+  resizeCanvas(baseWidth * windowScale, baseHeight * windowScale);
+}
+
+/*
+  This function adjust the window scale if resized.
+*/
+function windowResized() {
+  updateWindowScale();
 }
 
 
@@ -1475,8 +1480,8 @@ function updateWindowScale() {
 function mouseClicked() {
   
   // Get the mouse position adjusted for window size
-  var xCor = (mouseX - xOffset) / windowScale;
-  var yCor = (mouseY - yOffset) / windowScale;
+  var xCor = mouseX  / windowScale;
+  var yCor = mouseY / windowScale;
   
   // If the game is in the title screen after title animation
   if (titleScreen === true && onslaughtTitle.x === 400) {
