@@ -336,6 +336,7 @@ class MenuButton {
     // start button animation
     this.y += 3;
     this.buttonTimer = 12;
+    // switch to second instruction screen
     if (instructionOne === true) {
       instructionTwo = true;
       instructionOne = false;
@@ -343,14 +344,21 @@ class MenuButton {
       instructionsCoins = 0;
       instructionsLives =3;
     }
+    // switch to options screen
     else if (instructionTwo === true) {
       optionScreen = true;
       instructionScreen = false;
       instructionTwo = false;
+      // update button to say play
       this.play = true;
     }
+    // start the game
     else if (optionScreen === true) {
       startGame = true;
+      // initialize the shop
+      createShop();
+      // initialize the main game
+      initializeGame();
     }
   }
 }
@@ -475,14 +483,35 @@ class OptionsButton {
     if (this.easy === true) {
       this.easy = false;
       this.medium = true;
+      // update difficulty scalars
+      if (this.coins === true) {
+        coinsScaler = 1;
+      }
+      else if (this.lives === true) {
+        livesScaler = 1;
+      }
     }
     else if (this.medium === true) {
       this.medium = false;
       this.hard = true;
+      // update difficulty scalars
+      if (this.coins === true) {
+        coinsScaler = 0.5;
+      }
+      else if (this.lives === true) {
+        livesScaler = 1 / gameLives;
+      }
     }
     else {
       this.hard = false;
       this.easy = true;
+      // update difficulty scalars
+      if (this.coins === true) {
+        coinsScaler = 2;
+      }
+      else if (this.lives === true) {
+        livesScaler = 2;
+      }
     }
   }
 }
@@ -846,6 +875,139 @@ class TileMap {
 
 
 /*
+  This class creates the shop for purchasing towers.
+*/
+class Shop {
+  /*
+    The constructor sets the starting properties of the shop.
+    var x - the x position of the shop
+    var y - the y position of the shop
+  */
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+  
+  /*
+    This function draws the shop.
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    fill(150);
+    strokeWeight(1);
+    stroke(0);
+    rect(0, 0, 150, 345);
+    // draw the shop text
+    fill(100);
+    rect(5, 5, 140, 50);
+    textSize(45);
+    fill(200, 50, 50);
+    strokeWeight(4);
+    text("SHOP", 15, 45);
+    
+    // draw placeholders for towers
+    fill(70, 130, 180);
+    strokeWeight(1);
+    rect(5, 60, 67.5, 90);
+    rect(77.5, 60, 67.5, 90);
+    
+    rect(5, 155, 67.5, 90);
+    rect(77.5, 155, 67.5, 90);
+    
+    rect(5, 250, 67.5, 90);
+    rect(77.5, 250, 67.5, 90);
+    
+    textSize(15);
+    fill(0);
+    
+    // draw the icon of each tower in the shop
+    image(shopCannonImage, 7.5, 65);
+    text("Cannon", 12.5, 123.5);
+    text("10", 40, 142.5);
+    
+    pop();
+  }
+}
+
+
+/*
+  This class creates icons for coins.
+*/
+class  CoinIcon {
+  /*
+    The constructor sets the starting properties of the coin.
+    var x - the x position of the coin
+    var y - the y position of the coin
+    var radius - the radius of the coin
+  */
+  constructor(x, y, radius) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+  }
+  
+   /*
+    This function draws the coin.
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    
+    fill(212, 175, 55);
+    stroke(168, 134, 38);
+    strokeWeight(this.radius / 7);
+    ellipse(0, 0, this.radius, this.radius);
+    pop();
+  }
+}
+
+
+/*
+  This class creates icons for hearts.
+*/
+class  HeartIcon {
+  /*
+    The constructor sets the starting properties of the heart.
+    var x - the x position of the heart
+    var y - the y position of the heart
+    var size - the radius of the heart
+  */
+  constructor(x, y, size) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+  }
+  
+   /*
+    This function draws the heart.
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    
+    fill(220, 20, 60);
+    stroke(150, 0, 0);
+    strokeWeight(this.size / 7);
+    
+    // heart shape
+    beginShape();
+    // center point of two top curves
+    vertex(0, -this.size * 0.25);
+    // left curve
+    bezierVertex(-this.size * 0.15, -this.size * 0.6, -this.size * 0.9, -this.size * 0.5, -this.size * 0.33, this.size * 0.3);
+    // bottom curve connection
+    bezierVertex(-this.size * 0.15, this.size * 0.55, this.size * 0.15, this.size * 0.55, this.size * 0.33, this.size * 0.3);
+    // right curve
+    bezierVertex(this.size * 0.9, -this.size * 0.5, this.size * 0.15, -this.size * 0.6, 0, -this.size * 0.25);   
+    endShape(CLOSE);
+    
+    pop();
+  }
+}   
+
+
+/*
   This class creates standard blue orbs.
 */
 class BlueOrb {
@@ -853,6 +1015,7 @@ class BlueOrb {
     The constructor sets the starting properties of the blue orb.
     var x - the x position of the orb
     var y - the y position of the orb
+    var path - the path that the orb will move on
     var spawnTime - the time it takes for specific orb to spawn
   */
   constructor(x, y, path, spawnTime) {
@@ -1344,10 +1507,39 @@ var instructionsOneCannonTwo;
 var instructionsTwoCannonOne;
 var instructionsTwoCannonTwo;
 
+// instructions screen coin and heart
+var instructionsCoin;
+var instructionsHeart;
+
 // keep track of lives and coins in the instructions
 var instructionsCoins = 0;
 var instructionsLives = 3;
 
+// main game tilemap
+var tileMapArray;
+var tilemap
+
+// shop
+var shop;
+
+// cannon shop image
+var shopCannonImage;
+var shopCannon;
+
+// array to store coin for the shop
+var shopCoins = [];
+
+// keep track of game health and coin 
+var gameCoins = 10;
+var gameLives = 50;
+
+// coin and live scalers
+var coinsScaler = 2;
+var livesScaler = 2;
+
+// game coin and heart
+var gameCoin;
+var gameHeart;
 
 /*
   This function sets up the game
@@ -1406,8 +1598,65 @@ function setup() {
   instructionsOneCannonOne = new Cannon(520, 340, instructionsWaveOne.wave);
   instructionsOneCannonTwo = new Cannon(210, 300, instructionsWaveOne.wave);
   
-  instructionsTwoCannonOne = new Cannon(215, 255, instructionsWaveTwo.wave);
+  instructionsTwoCannonOne = new Cannon(215, 265, instructionsWaveTwo.wave);
   instructionsTwoCannonTwo = new Cannon(200, 325, instructionsWaveTwo.wave);
+  
+  // instructions screen coin and heart
+  instructionsCoin =  new CoinIcon(235, 230, 20);
+  instructionsHeart = new HeartIcon(175, 230, 20);
+}
+
+
+/*
+  This function initlaizes objects for the main game.
+*/
+function initializeGame() {
+  // add the tilemap for the main game
+  tileMapArray = ["xxxxxxxxxsxxxxxx",
+                  "         v      ",
+                  "         v      ",
+                  " 3hh4  3h1      ",
+                  " v  v  v        ",
+                  " v  2hhthhh4    ",
+                  " v         v    ",
+                  " 2h4       v    ",
+                  "   v  3hhhh1    ",
+                  "   v  v         ",
+                  "   v  v         ",
+                  "   v  2hhh4     ",
+                  "   v      v     ",
+                  "xxxexxxxxxexxxxx"]
+    
+  tilemap = new TileMap(0, -50, tileMapArray);
+  tilemap.initialize();
+  
+  // set difficulty based on scalars
+  gameLives *= livesScaler;
+  gameCoins *= coinsScaler;
+  
+  // game screen coin and heart
+  gameHeart = new HeartIcon(25, 30, 30);
+  gameCoin =  new CoinIcon(140, 30, 30);
+}
+
+
+/*
+  This function creates the shop for the game.
+*/
+function createShop() {
+  // create the shop
+  shop = new Shop(650, 0);
+  
+  // get an image of cannon for shop
+  shopCannon = new Cannon(30, 25, []);
+  noStroke();
+  fill(70, 130, 180);
+  rect(0, 0, 60, 50);
+  shopCannon.draw();
+  shopCannonImage = get(0, 0, 60, 50);
+  
+  // add coins to be drawn
+  shopCoins.push(new CoinIcon(677.5, 137.5, 15));
 }
 
 
@@ -1452,7 +1701,7 @@ function draw() {
   // start the game
   if (startGame === true && menuButton.buttonTimer <= 0) {
     optionScreen = false;
-    // start game function
+    gameScreen();
   }
   
   pop();
@@ -1522,6 +1771,27 @@ function mouseClicked() {
   }
 }
 
+
+/*
+  This handles displaying and running the game.
+*/
+function gameScreen() {
+  // draw thw mian tilemap
+  tilemap.draw();
+  // draw the shop
+  shop.draw();
+  for (var i  = shopCoins.length - 1; i >= 0; i--) {
+    shopCoins[i].draw();
+  }
+  
+  // display lives and coins
+  textSize(40);
+  fill(0);
+  text(gameLives, 50, 45);
+  gameHeart.draw();
+  text(gameCoins, 165, 45);
+  gameCoin.draw();
+}
 
 /*
   This handles displaying the title screen.
@@ -1693,13 +1963,14 @@ function instructionScreenDraw() {
   menuButton.draw();
   
   //display coins and lives
-  fill(255, 215, 0);
+  fill(0);
   textSize(25);
-  text("Coins " + instructionsCoins, 265, 240);
+  text(instructionsCoins, 252, 240);
+  instructionsCoin.draw();
   
-  fill(220, 20, 60);
   textSize(25);
-  text("Lives " + instructionsLives, 160, 240);
+  text(instructionsLives, 194, 240);
+  instructionsHeart.draw()
 }
 
 
