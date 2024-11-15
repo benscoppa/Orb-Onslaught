@@ -80,7 +80,7 @@ var shopCoins = [];
 
 // keep track of game health and coin 
 var gameCoins = 20;
-var gameLives = 50;
+var gameLives = 25;
 
 // coin and live scalers
 var coinsScaler = 2;

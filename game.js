@@ -31,6 +31,25 @@ function initializeGame() {
   
   // reset the towers array
   towers = [];
+  
+  // initialize the waves array
+  waveArray = [ // wave 1
+               [{ type: 'b', path: tilemap.paths[0], spawnTime: 60 },
+                { type: 'b', path: tilemap.paths[0], spawnTime: 120 },
+                { type: 'b', path: tilemap.paths[1], spawnTime: 180 },
+                { type: 'b', path: tilemap.paths[1], spawnTime: 210 }],
+                // wave 2
+               [{ type: 'b', path: tilemap.paths[0], spawnTime: 60 },
+                { type: 'b', path: tilemap.paths[0], spawnTime: 120 },
+                { type: 'b', path: tilemap.paths[0], spawnTime: 180 },
+                { type: 'b', path: tilemap.paths[0], spawnTime: 230 },
+                { type: 'b', path: tilemap.paths[0], spawnTime: 260 },
+                { type: 'b', path: tilemap.paths[0], spawnTime: 300 }]
+              ];
+  
+  // create a wave  manager to handle the 2D array of waves
+  waveManager = new WaveManager(waveArray, 475, -30);
+  waveManager.startNextWave();
 }
 
 
@@ -79,9 +98,15 @@ function gameScreen() {
     buildTower.draw();
   }
   
-  // draw each tower
+  // draw each tower and shoot
   for (var j = towers.length - 1; j >= 0; j--) {
     var tower = towers[j];
+    tower.cannonball();
     tower.draw();
+    tower.shoot();
   }
+  
+  // update and draw the wave manager
+  waveManager.update();
+  waveManager.draw();
 }

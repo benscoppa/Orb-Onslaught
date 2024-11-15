@@ -111,8 +111,8 @@ class Cannon {
       cannonball.draw();
       cannonball.move();
       
-      // TODO: fix this logic
-      if (cannonball.x > 645 || cannonball.y > 465) {
+      // delete the cannonball off screen
+      if (cannonball.x > 810 || cannonball.y > 610 || cannonball.x < -10 || cannonball.y < -10) {
         this.cannonballs.splice(i, 1);
         break;
       }

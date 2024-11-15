@@ -76,6 +76,7 @@ class BlueOrb {
     // stop once the path is completed
     if (!this.path || this.currentPoint >= this.path.length) {
       this.end = true;
+      gameLives -= 1;
       return;
     }
 
@@ -174,6 +175,7 @@ class YellowOrb {
     if (!this.path || this.currentPoint >= this.path.length) {
       this.end = true;
       instructionsLives -= 1;
+      gameLives -= 1;
       return;
     }
 
@@ -257,12 +259,86 @@ class WaveCreator {
       if (orb.end === true) {
         this.wave.splice(i, 1);
       }
-      
       // delete orbs that are killed
-      if (orb.health <= 0) {
+      else if (orb.health <= 0) {
         this.wave.splice(i, 1);
         instructionsCoins += 1;
+        gameCoins += 1;
       }
     }
+  }
+}
+
+
+/*
+  This class manages a 2D array containing multiple waves.
+*/
+class WaveManager {
+  /*
+    The constructor sets up the wave manager.
+    var waveArray - the 2D array of waves
+    var startX - starting x position of orbs in the wave
+    var startY - starting y position of orbs in the wave
+  */
+  constructor(waveArray, startX, startY) {
+    this.waveArray = waveArray;
+    this.currentWaveIndex = 0;
+    this.startX = startX;
+    this.startY = startY;
+    this.currentWave = null;
+    this.waveInProgress = false;
+    this.timeBetweenWaves = 300;
+    this.waveCooldown = 0;
+  }
+
+  /*
+    This function starts the next wave.
+  */
+  startNextWave() {
+    if (this.currentWaveIndex < this.waveArray.length) {
+      var wave = this.waveArray[this.currentWaveIndex];
+      this.currentWave = new WaveCreator(this.startX, this.startY, wave, 600);
+      this.currentWave.initialize();
+      this.currentWaveIndex++;
+      this.waveInProgress = true;
+      
+      // add the wave to each tower
+      for (var i = towers.length - 1; i >= 0; i--) {
+        var tower = towers[i];
+        tower.currentWave = this.currentWave.wave;
+      }
+    }
+  }
+
+  /*
+    Updates the wave manager each frame.
+  */
+  update() {
+    // If there is an active wave spawn orbs
+    if (this.waveInProgress && this.currentWave) {
+      this.currentWave.spawnOrbs();
+
+      // After the wave finishes update the cooldown
+      if (this.currentWave.wave.length === 0) {
+        this.waveInProgress = false;
+        this.waveCooldown = this.timeBetweenWaves;
+      }
+    }
+    // decrement the cooldown timer
+    else if (!this.waveInProgress && this.waveCooldown > 0) {
+      this.waveCooldown--;
+      if (this.waveCooldown <= 0) {
+        this.startNextWave();
+      }
+    }
+  }
+
+  /*
+    Draw the wave manager hud.
+  */
+  draw() {
+    textSize(30);
+    fill(0);
+    text(`Wave ${this.currentWaveIndex}/${this.waveArray.length}`, 280, 40);
   }
 }

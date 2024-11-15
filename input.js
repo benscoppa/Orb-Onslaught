@@ -87,6 +87,8 @@ function mouseClicked() {
     // place the tower where clicked if it is a valid location
     else if (buildTower.canPlace){
       buildTower.displayRange = false;
+      // give it the current wave
+      buildTower.currentWave = waveManager.currentWave.wave;
       towers.push(buildTower);
       buildTower = null;
       building = false;
