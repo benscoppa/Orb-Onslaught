@@ -80,12 +80,13 @@ function mouseClicked() {
   // if building is true either place the tower or return it to the shop
   else if (startGame === true && building === true) {
     // return cannon to the shop
-    if ((xCor >= shop.x) && (xCor <= shop.x + 120) && (yCor >= shop.y) && (yCor <= shop.y + 345)) {
+    if ((xCor >= shop.x - 20) && (xCor <= shop.x + 120) && (yCor >= shop.y) && (yCor <= shop.y + 365)) {
       buildTower = null;
       building = false;
     }
-    // place the tower where clicked
-    else {
+    // place the tower where clicked if it is a valid location
+    else if (buildTower.canPlace){
+      buildTower.displayRange = false;
       towers.push(buildTower);
       buildTower = null;
       building = false;

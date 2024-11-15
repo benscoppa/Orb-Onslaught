@@ -57,7 +57,7 @@ function createShop() {
   This handles displaying and running the game.
 */
 function gameScreen() {
-  // draw thw mian tilemap
+  // draw the main tilemap
   tilemap.draw();
   // draw the shop
   shop.draw();
@@ -73,10 +73,9 @@ function gameScreen() {
   text(gameCoins, 165, 45);
   gameCoin.draw();
   
-  // draw the build tower
+  // handle the build tower object if there is one
   if (buildTower != null) {
-    buildTower.x = mouseX / windowScale;
-    buildTower.y = mouseY / windowScale;
+    handleBuildTower(buildTower);
     buildTower.draw();
   }
   

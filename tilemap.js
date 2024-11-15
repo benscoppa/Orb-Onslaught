@@ -200,13 +200,14 @@ class TileMap {
     this.tilemap = tilemap;
     this.mapArray = [];
     this.paths = [];
+    this.placementMap = [];
   }
   
   /*
     This function initializes the tilemap. 
   */  
   initialize() {
-    // the start of the paths
+    // the starts of the paths
     var startTiles = [];
     
     // iterate through the tile map and add each object
@@ -273,6 +274,9 @@ class TileMap {
         this.paths.splice(l, 1);
       }
     }
+    
+    // create the placement map for where tiles can and cant be placed
+    this.placementMap = this.createPlacementMap();
   }
   
   /*
@@ -328,7 +332,7 @@ class TileMap {
     if (x < 0 || y < 0 || y >= this.tilemap.length || x >= this.tilemap[y].length) {
       return false;
     }
-    let tile = this.tilemap[y][x];
+    var tile = this.tilemap[y][x];
     return tile === 'h' || tile === 'v' || tile === '1' || tile === '2' || tile === '3' || tile === '4' || tile === 'e' || tile === 'l' || tile === 'r' || tile === 't' || tile === 'b';
   }
   
@@ -351,5 +355,71 @@ class TileMap {
       this.drawImage(this.mapArray[i]);
     }
     pop();
+  }
+  
+  /*
+    This function creates the placement map which marking 1 for paths and 0 for non paths.
+  */
+  createPlacementMap() {
+    const placementMap = [];
+    // iterate through tilemap skipping top and bottom rows only used for path
+    for (var i = 1; i < this.tilemap.length - 1; i++) {
+      var row = [];
+      for (var j = 0; j < this.tilemap[i].length; j++) {
+        // 1 for non placable tiles
+        if (this.isPathTile(j, i)) {
+          row.push(1);
+        } 
+        // 0 for placeable tiles
+        else {
+          row.push(0);
+        }
+      }
+      placementMap.push(row);
+    }
+    return placementMap;
+  }
+  
+  /*
+    This function determines if a tower can be placed a a specific location on the tilemap. 
+    var x - the x pixel coordinate to check
+    var y - the y pixel coordinate to check
+  */
+  canPlaceTower(x, y) {
+    var tileSize = 50;
+    
+    // radius of the tower
+    var radius = 20;
+
+    // bounding box for tower
+    var leftCol = Math.floor((x - radius) / tileSize);
+    var rightCol = Math.floor((x + radius) / tileSize);
+    var topRow = Math.floor((y - radius) / tileSize);
+    var bottomRow = Math.floor((y + radius) / tileSize);
+
+    // check each tile within the bounding box to make sure it is placeable
+    for (var row = topRow; row <= bottomRow; row++) {
+      for (var col = leftCol; col <= rightCol; col++) {
+        if (!this.isPlacable(row, col)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+  
+  /*
+    Determine if a loaction in the placment map is placable
+    var row - the row index in the placement map
+    var col - the column index in the placement map
+  */
+  isPlacable(row, col) {
+    // if the area is within the bounds of the placement map
+    if (row >= 0 && row < this.placementMap.length && col >= 0 && col < this.placementMap[0].length) {
+      // return true if not the location of a path
+      return this.placementMap[row][col] === 0;
+    }
+    return false;
   }
 }

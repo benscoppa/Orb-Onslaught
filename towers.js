@@ -18,6 +18,8 @@ class Cannon {
     this.shootTimer = 0;
     this.damage = 5;
     this.cannonballs = [];
+    this.displayRange = false;
+    this.canPlace = true;
   }
   
   /*
@@ -26,6 +28,19 @@ class Cannon {
   draw() {
     push();
     translate(this.x, this.y);
+    
+    // draw the range indicator if active
+    if (this.displayRange === true) {
+      noStroke();
+      // gray if placeable red if not
+      if (this.canPlace === true) {
+        fill(128, 128, 128, 128);
+      }
+      else {
+        fill(255, 0, 0, 128);
+      }
+      ellipse(0, 0, this.range * 2, this.range * 2);
+    }
     
     // draw the base of the cannon
     fill(100);
@@ -157,4 +172,24 @@ class Cannonball {
     this.x += this.dx;
     this.y += this.dy;
   }
+}
+
+
+/*
+  This function handles a build tower updating its location, range indicator and its placeablility.
+  var buildTower - the current buildTower tower object
+*/
+function handleBuildTower(buildTower) {
+  var xCor = mouseX / windowScale;
+  var yCor = mouseY / windowScale;
+    
+  // check if mouse is over shop and display range if not
+  var inShop = (xCor >= shop.x - 20) && (xCor <= shop.x + 120) && (yCor >= shop.y) && (yCor <= shop.y + 365);
+  buildTower.displayRange = !inShop;
+    
+  // tower can be placed when not over shop and on not over unplaceable tiles
+  buildTower.canPlace = !inShop && tilemap.canPlaceTower(xCor, yCor);
+    
+  buildTower.x = xCor;
+  buildTower.y = yCor;
 }
