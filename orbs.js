@@ -300,7 +300,7 @@ class OrangeOrb {
     } 
     // otherwise orange color
     else {
-      fill(200, 170, 70);
+      fill(200, 130, 20);
     }
     ellipse(0, 0, 35, 35);
 
