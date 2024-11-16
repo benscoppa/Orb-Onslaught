@@ -23,8 +23,8 @@ function initializeGame() {
   
   // set difficulty
   gameLives *= livesScaler;
-  // always start with 30 coins
-  gameCoins = 30;
+  // always start with 50 coins
+  gameCoins = 100;
   
   // game screen coin and heart
   gameHeart = new HeartIcon(25, 30, 30);
@@ -34,19 +34,7 @@ function initializeGame() {
   towers = [];
   
   // initialize the waves array
-  waveArray = [ // wave 1
-               [{ type: 'b', path: tilemap.paths[0], spawnTime: 60 },
-                { type: 'b', path: tilemap.paths[0], spawnTime: 120 },
-                { type: 'b', path: tilemap.paths[1], spawnTime: 180 },
-                { type: 'b', path: tilemap.paths[1], spawnTime: 210 }],
-                // wave 2
-               [{ type: 'b', path: tilemap.paths[0], spawnTime: 60 },
-                { type: 'b', path: tilemap.paths[0], spawnTime: 120 },
-                { type: 'b', path: tilemap.paths[0], spawnTime: 180 },
-                { type: 'b', path: tilemap.paths[1], spawnTime: 230 },
-                { type: 'b', path: tilemap.paths[1], spawnTime: 260 },
-                { type: 'b', path: tilemap.paths[1], spawnTime: 300 }]
-              ];
+  waveArray = createWaves();
   
   // create a wave  manager to handle the 2D array of waves
   waveManager = new WaveManager(waveArray, 475, -30);
@@ -114,6 +102,7 @@ function gameScreen() {
   
   // game over if lives get to 0
   if (gameLives <= 0) {
+    gameLives = 0;
     gameOver = true;
     pause = true;
     buildTower = null;

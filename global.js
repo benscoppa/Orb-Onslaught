@@ -85,7 +85,7 @@ var shopCannon;
 var shopCoins = [];
 
 // keep track of game health and coin 
-var gameCoins = 30;
+var gameCoins = 100;
 var gameLives = 25;
 
 // difficulty scalars

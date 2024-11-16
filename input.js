@@ -66,12 +66,12 @@ function mouseClicked() {
     // if the cannon is selected purchase a new cannon
     if ((xCor >= shop.x + 5) && (xCor <= shop.x + 72.5) && (yCor >= shop.y + 60) && (yCor <= shop.y + 150)) {
       // if there are enough coins to buy the cannon
-      if (gameCoins >= 10) {
+      if (gameCoins >= 40) {
         buildTower = new Cannon(xCor, yCor, []);
         building = true;
       }
       // animation for cannon being too expensive
-      else if (gameCoins < 10) {
+      else if (gameCoins < 40) {
         shop.cannonExpensive = true;
         shop.expensiveTimer = 10;
       }
@@ -92,7 +92,7 @@ function mouseClicked() {
       towers.push(buildTower);
       buildTower = null;
       building = false;
-      gameCoins -= 10;
+      gameCoins -= 40;
     }
   }
   

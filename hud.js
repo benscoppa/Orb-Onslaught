@@ -70,7 +70,7 @@ class Shop {
     // draw the icon of each tower in the shop
     image(shopCannonImage, 7.5, 65);
     text("Cannon", 12.5, 123.5);
-    text("10", 40, 142.5);
+    text("40", 40, 142.5);
     
     pop();
   }

@@ -405,6 +405,15 @@ class TileMap {
         }
       }
     }
+    
+    
+    // additionally check that a tower is not being placed on top of another
+    for (var i = towers.length - 1; i >= 0; i--) {
+      var tower = towers[i];
+      if (dist(x , y, tower.x, tower.y) <= radius * 2) {
+        return false;
+      }
+    }
 
     return true;
   }

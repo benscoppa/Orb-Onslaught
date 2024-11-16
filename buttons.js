@@ -330,7 +330,7 @@ class OptionsButton {
         livesScaler = 1 / gameLives;
       }
       else if (this.health === true) {
-        heathScaler = 2;
+        heathScaler = 1.5;
       }
       else if (this.speed === true) {
         speedScaler = 1.3;
