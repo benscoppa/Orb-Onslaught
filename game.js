@@ -21,9 +21,10 @@ function initializeGame() {
   tilemap = new TileMap(0, -50, tileMapArray);
   tilemap.initialize();
   
-  // set difficulty based on scalars
+  // set difficulty
   gameLives *= livesScaler;
-  gameCoins *= coinsScaler;
+  // always start with 30 coins
+  gameCoins = 30;
   
   // game screen coin and heart
   gameHeart = new HeartIcon(25, 30, 30);
@@ -42,9 +43,9 @@ function initializeGame() {
                [{ type: 'b', path: tilemap.paths[0], spawnTime: 60 },
                 { type: 'b', path: tilemap.paths[0], spawnTime: 120 },
                 { type: 'b', path: tilemap.paths[0], spawnTime: 180 },
-                { type: 'b', path: tilemap.paths[0], spawnTime: 230 },
-                { type: 'b', path: tilemap.paths[0], spawnTime: 260 },
-                { type: 'b', path: tilemap.paths[0], spawnTime: 300 }]
+                { type: 'b', path: tilemap.paths[1], spawnTime: 230 },
+                { type: 'b', path: tilemap.paths[1], spawnTime: 260 },
+                { type: 'b', path: tilemap.paths[1], spawnTime: 300 }]
               ];
   
   // create a wave  manager to handle the 2D array of waves
@@ -101,12 +102,28 @@ function gameScreen() {
   // draw each tower and shoot
   for (var j = towers.length - 1; j >= 0; j--) {
     var tower = towers[j];
-    tower.cannonball();
+    if (pause === false) {
+      tower.shoot();
+    }
     tower.draw();
-    tower.shoot();
   }
   
   // update and draw the wave manager
   waveManager.update();
   waveManager.draw();
+  
+  // game over if lives get to 0
+  if (gameLives <= 0) {
+    gameOver = true;
+    pause = true;
+    buildTower = null;
+    building = false;
+  }
+  // game won if all waves completed
+  else if (waveManager.currentWaveIndex >= waveManager.waveArray.length && waveManager.waveInProgress === false) {
+    gameWon = true;
+    pause = true;
+    buildTower = null;
+    building = false;
+  }
 }

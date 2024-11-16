@@ -83,11 +83,11 @@ function instructionScreenDraw() {
     instructionsWaveOne.spawnOrbs();
     // restart the wave after its timer
     if (instructionsWaveOne.waveTimer <= 0) {
-      instructionsWaveOne.waveTimer = 600;
+      instructionsWaveOne.waveTimer = 675;
       instructionsWaveOne.initialize();
       // reset health and coins after one wave
       instructionsCoins = 0;
-      instructionsLives = 3;
+      instructionsLives = 5;
     }
     else {
       instructionsWaveOne.waveTimer -= 1;
@@ -103,13 +103,11 @@ function instructionScreenDraw() {
     rect(400, 460, 50, 2);
     
     // add the cannons
-    instructionsOneCannonOne.cannonball();
-    instructionsOneCannonOne.draw();
     instructionsOneCannonOne.shoot();
+    instructionsOneCannonOne.draw();
     
-    instructionsOneCannonTwo.cannonball();
-    instructionsOneCannonTwo.draw();
     instructionsOneCannonTwo.shoot();
+    instructionsOneCannonTwo.draw();
   }
   
   // second set of instructions
@@ -126,7 +124,7 @@ function instructionScreenDraw() {
       instructionsWaveTwo.initialize();
       // reset health and coins after one wave
       instructionsCoins = 0;
-      instructionsLives =3;
+      instructionsLives = 5;
     }
     else {
       instructionsWaveTwo.waveTimer -= 1;
@@ -184,7 +182,7 @@ function instructionScreenDraw() {
 */
 function optionScreenDraw() {
   
-   // Add background for options window
+  // Add background for options window
   fill(220);
   rect(100, 25, 600, 550);
   
@@ -238,4 +236,66 @@ function optionScreenDraw() {
   rect(340, 413, 180, 50);
   // Draw the lives button
   livesButton.draw();
+}
+
+
+/*
+  This handles displaying the game over screen.
+*/
+function gameOverScreen() {
+  // Add background for game over window
+  fill(200);
+  stroke(0);
+  strokeWeight(2);
+  rect(160, 125, 480, 290);
+  
+  fill(120);
+  rect(185, 150, 430, 160);
+  
+  // Add large game over text
+  textSize(40);
+  fill(230, 40, 20);
+  noStroke();
+  // game over and indicate rounds survived
+  textAlign(CENTER, CENTER);
+  text("GAME OVER", 400, 200);
+  text(`You Survived ${waveManager.currentWaveIndex - 1} Waves`, 400, 250);
+  textAlign(LEFT, BASELINE);
+  
+  // Add a shadow for lives button
+  fill(0);
+  rect(205, 333, 390, 60);
+  // draw options button
+  returnToOptionsButton.draw()
+}
+
+
+/*
+  This handles displaying the game won screen.
+*/
+function gameWonScreen() {
+  // Add background for game over window
+  fill(200);
+  stroke(0);
+  strokeWeight(2);
+  rect(160, 125, 480, 290);
+  
+  fill(120);
+  rect(185, 150, 430, 160);
+  
+  // Add large game over text
+  textSize(40);
+  fill(20, 230, 40);
+  noStroke();
+  // game over and indicate rounds survived
+  textAlign(CENTER, CENTER);
+  text("GAME WON", 400, 200);
+  text(`You Survived`, 400, 250);
+  textAlign(LEFT, BASELINE);
+  
+  // Add a shadow for lives button
+  fill(0);
+  rect(205, 333, 390, 60);
+  // draw options button
+  returnToOptionsButton.draw()
 }

@@ -95,4 +95,12 @@ function mouseClicked() {
       gameCoins -= 10;
     }
   }
+  
+  // if the game is over or won
+  if (gameOver === true || gameWon === true) {
+    // if retuen button is clicked return to options screen
+    if ((xCor >= returnToOptionsButton.x) && (xCor <= returnToOptionsButton.x + 390) && (yCor >= returnToOptionsButton.y) && (yCor < returnToOptionsButton.y + 60)) {
+      returnToOptionsButton.pressed();
+    }
+  }
 }

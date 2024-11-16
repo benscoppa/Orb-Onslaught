@@ -18,6 +18,9 @@ var titleScreen = true;
 var instructionScreen = false;
 var optionScreen = false;
 var startGame = false;
+var gameOver = false;
+var pause = false;
+var gameWon = false;
 // booleans for progresing through instructions
 var instructionOne = true;
 var instructionTwo = false;
@@ -37,6 +40,9 @@ var speedButton;
 var healthButton;
 // lives option button object
 var livesButton;
+
+// return to options screen after game ends
+var returnToOptionsButton;
 
 // instuctions one tilemap object
 var instructrionsOneTilemap;
@@ -62,7 +68,7 @@ var instructionsHeart;
 
 // keep track of lives and coins in the instructions
 var instructionsCoins = 0;
-var instructionsLives = 3;
+var instructionsLives = 5;
 
 // main game tilemap
 var tileMapArray;
@@ -79,12 +85,14 @@ var shopCannon;
 var shopCoins = [];
 
 // keep track of game health and coin 
-var gameCoins = 20;
+var gameCoins = 30;
 var gameLives = 25;
 
-// coin and live scalers
-var coinsScaler = 2;
-var livesScaler = 2;
+// difficulty scalars
+var coinsScaler = 1;
+var livesScaler = 1;
+var speedScaler = 1;
+var heathScaler = 1;
 
 // game coin and heart
 var gameCoin;

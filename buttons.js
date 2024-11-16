@@ -105,7 +105,7 @@ class MenuButton {
       instructionOne = false;
       // reset health and coins for second screen
       instructionsCoins = 0;
-      instructionsLives =3;
+      instructionsLives = 5;
     }
     // switch to options screen
     else if (instructionTwo === true) {
@@ -114,6 +114,11 @@ class MenuButton {
       instructionTwo = false;
       // update button to say play
       this.play = true;
+      // set scalars to easiest
+      speedScaler = 0.7;
+      heathScaler = 0.5;
+      coinsScaler = 2;
+      livesScaler = 2;
     }
     // start the game
     else if (optionScreen === true) {
@@ -123,6 +128,60 @@ class MenuButton {
       // initialize the main game
       initializeGame();
     }
+  }
+}
+
+
+/*
+  This class creates returb button for returning to the options screen.
+*/
+class ReturnButton {
+  
+  /*
+    The constructor sets the starting property of the return button.
+    var x - the x position of the start button
+    var y - the y position of the start button
+  */
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.buttonTimer = 0;
+  }
+  
+  /*
+    This function draws the start button. 
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    // Color and no border
+    noStroke();
+    // Create the rectangle of the start button
+    fill(60);
+    rect(0, 0, 390, 60);
+    textSize(30);
+    // display next text
+    fill(90, 90, 170);
+    rect(5, 5, 380, 50);
+    fill(0);
+    text("RETURN TO OPTIONS", 37, 40);   
+    pop();
+  }
+  
+  /*
+    This function is called when the menu button is pressed advancing through instructions and options. 
+  */
+  pressed() {
+    // start button animation
+    this.y += 3;
+    this.buttonTimer = 12;
+    // switch to options screen
+    optionScreen = true;
+    startGame = false;
+    instructionScreen = false;
+    instructionTwo = false;
+    // reset lives
+    gameLives = 25;
   }
 }
 
@@ -174,7 +233,7 @@ class OptionsButton {
         text("Double", 20, 35);
       }
       else {
-        text("Half", 20, 35);
+        text("Low", 20, 35);
       }
       // add smiley face
       fill(130, 210, 130);
@@ -218,7 +277,7 @@ class OptionsButton {
         text("Half", 20, 35);
       }
       else {
-        text("Double", 20, 35);
+        text("High", 20, 35);
       }
       // add angry face
       fill(210, 130, 130);
@@ -246,34 +305,52 @@ class OptionsButton {
     if (this.easy === true) {
       this.easy = false;
       this.medium = true;
-      // update difficulty scalars
+      // update difficulty scalars to normal
       if (this.coins === true) {
         coinsScaler = 1;
       }
       else if (this.lives === true) {
         livesScaler = 1;
       }
+      else if (this.health === true) {
+        heathScaler = 1;
+      }
+      else if (this.speed === true) {
+        speedScaler = 1;
+      }
     }
     else if (this.medium === true) {
       this.medium = false;
       this.hard = true;
-      // update difficulty scalars
+      // update difficulty scalars to hard
       if (this.coins === true) {
         coinsScaler = 0.5;
       }
       else if (this.lives === true) {
         livesScaler = 1 / gameLives;
       }
+      else if (this.health === true) {
+        heathScaler = 2;
+      }
+      else if (this.speed === true) {
+        speedScaler = 1.3;
+      }
     }
     else {
       this.hard = false;
       this.easy = true;
-      // update difficulty scalars
+      // update difficulty scalars to easiest
       if (this.coins === true) {
         coinsScaler = 2;
       }
       else if (this.lives === true) {
         livesScaler = 2;
+      }
+      else if (this.health === true) {
+        heathScaler = 0.5;
+      }
+      else if (this.speed === true) {
+        speedScaler = 0.7;
       }
     }
   }

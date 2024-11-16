@@ -68,7 +68,7 @@ function setup() {
                               { type: 'b', path: instructionsOneTilemap.paths[0], spawnTime: 120 },
                               { type: 'b', path: instructionsOneTilemap.paths[0], spawnTime: 180 },
                               { type: 'b', path: instructionsOneTilemap.paths[0], spawnTime: 210 }];
-  instructionsWaveOne = new WaveCreator(575, 185, instructionsOneWaveArray, 600);
+  instructionsWaveOne = new WaveCreator(575, 185, instructionsOneWaveArray, 675);
   instructionsWaveOne.initialize();
   
   // tinstuctions two wave array
@@ -89,6 +89,10 @@ function setup() {
   // instructions screen coin and heart
   instructionsCoin =  new CoinIcon(235, 230, 20);
   instructionsHeart = new HeartIcon(175, 230, 20);
+  
+  // menu buutton for returning to options
+  returnToOptionsButton = new ReturnButton(205, 330);
+  buttons.push(returnToOptionsButton);
 }
 
 
@@ -126,7 +130,10 @@ function draw() {
   }
   
   // dispalay options screen
-  if (optionScreen === true) {
+  if (optionScreen === true && returnToOptionsButton.buttonTimer <= 0) {
+    gameOver = false;
+    gameWon = false;
+    pause = false;
     optionScreenDraw();
   }
   
@@ -134,6 +141,15 @@ function draw() {
   if (startGame === true && menuButton.buttonTimer <= 0) {
     optionScreen = false;
     gameScreen();
+  }
+  
+  // game over screen
+  if (gameOver === true) {
+    gameOverScreen();
+  }
+  // game won screen
+  else if (gameWon === true) {
+    gameWonScreen();
   }
   
   pop();

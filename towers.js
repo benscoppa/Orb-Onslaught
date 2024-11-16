@@ -67,6 +67,9 @@ class Cannon {
     This finds the orbs in range and shoots them.
   */
   shoot() {
+    // move existing cannonballs
+    this.cannonball();
+    
     // remove orbs not in range or dead
     for (var orb of this.orbsInRange) {
       if (dist(this.x, this.y, orb.x, orb.y) >= this.range || orb.health <= 0) {
@@ -146,7 +149,7 @@ class Cannonball {
   constructor(x, y, angle) {
     this.x = x;
     this.y = y;
-    this.speed = 4;
+    this.speed = 6;
     this.dx = cos(angle) * this.speed;
     this.dy = sin(angle) * this.speed;
   }

@@ -26,9 +26,13 @@ class BlueOrb {
     // handle reaching the end of the map
     this.end = false;
     // handle health
-    this.health = 10;
+    this.health = 10 * heathScaler;
     this.damage = false;
     this.damageTimer = 0;
+    // the hearts taken when reaching end of path
+    this.heartsTaken = 1;
+    // coins given when defeated
+    this.coinsGiven = 2;
   }
   
   /*
@@ -73,10 +77,13 @@ class BlueOrb {
     This function moves the blue orb along its single path.
   */
   move() {
+    // scaled speed
+    var scaledSpeed = this.speed * speedScaler;
+    
     // stop once the path is completed
     if (!this.path || this.currentPoint >= this.path.length) {
       this.end = true;
-      gameLives -= 1;
+      gameLives -= this.heartsTaken;
       return;
     }
 
@@ -86,9 +93,9 @@ class BlueOrb {
     var distance = dist(this.x, this.y, target.x, target.y);
 
     // move towards the target point
-    if (distance > this.speed) {
-      this.x += (dx / distance) * this.speed;
-      this.y += (dy / distance) * this.speed;
+    if (distance > scaledSpeed) {
+      this.x += (dx / distance) * scaledSpeed;
+      this.y += (dy / distance) * scaledSpeed;
     } 
     else {
       this.x = target.x;
@@ -97,8 +104,8 @@ class BlueOrb {
     }
     
     // update time and add bounce effect
-    this.time += this.bounceFrequency;
-    var bounceOffset = sin(this.time) * this.bounceHeight;
+    this.time += this.bounceFrequency * speedScaler;
+    var bounceOffset = sin(this.time) * this.bounceHeight * speedScaler;
     // smaller bounce if moving vertically
     if (this.y == target.y) {
       this.y += bounceOffset / 2;
@@ -138,8 +145,12 @@ class YellowOrb {
     // handle reaching the end of the map
     this.end = false;
     // handle health
-    this.health = 10;
+    this.health = 10 * heathScaler;
     this.damage = false;
+    // the hearts taken when reaching end of path
+    this.heartsTaken = 2;
+    // coins given when defeated
+    this.coinsGiven = 4;
   }
   
   /*
@@ -171,11 +182,18 @@ class YellowOrb {
     This function moves the blue orb along its single path.
   */
   move() {
+    // scaled speed
+    var scaledSpeed = this.speed * speedScaler;
+    
     // stop once the path is completed
     if (!this.path || this.currentPoint >= this.path.length) {
       this.end = true;
-      instructionsLives -= 1;
-      gameLives -= 1;
+      if (instructionScreen) {
+        instructionsLives -= this.heartsTaken;
+      }
+      else {
+        gameLives -= this.heartsTaken;
+      }
       return;
     }
 
@@ -186,9 +204,9 @@ class YellowOrb {
     var distance = dist(this.x, this.y, target.x, target.y);
 
     // move towards the target point
-    if (distance > this.speed) {
-      this.x += (dx / distance) * this.speed;
-      this.y += (dy / distance) * this.speed;
+    if (distance > scaledSpeed) {
+      this.x += (dx / distance) * scaledSpeed;
+      this.y += (dy / distance) * scaledSpeed;
     } 
     else {
       this.x = target.x;
@@ -197,9 +215,15 @@ class YellowOrb {
     }
     
     // update time and add bounce effect
-    this.time += this.bounceFrequency;
-    var bounceOffset = sin(this.time) * this.bounceHeight;
-    this.y += bounceOffset;
+    this.time += this.bounceFrequency * speedScaler;
+    var bounceOffset = sin(this.time) * this.bounceHeight * speedScaler;
+    // smaller bounce if moving vertically
+    if (this.y == target.y) {
+      this.y += bounceOffset / 2;
+    }
+    else {
+      this.y += bounceOffset;
+    }
   }
 }
 
@@ -249,7 +273,9 @@ class WaveCreator {
       var orb = this.wave[i];
       if (orb.spawnTimer <= 0) {
         orb.draw();
-        orb.move();
+        if (pause === false) {
+          orb.move();
+        }
       } 
       else {
         orb.spawnTimer -= 1;
@@ -261,9 +287,14 @@ class WaveCreator {
       }
       // delete orbs that are killed
       else if (orb.health <= 0) {
+        // give coins when orb is destroyed
+        if (instructionScreen) {
+          instructionsCoins += orb.coinsGiven * coinsScaler;
+        }
+        else {
+          gameCoins += orb.coinsGiven * coinsScaler;
+        }
         this.wave.splice(i, 1);
-        instructionsCoins += 1;
-        gameCoins += 1;
       }
     }
   }
@@ -325,7 +356,7 @@ class WaveManager {
       }
     }
     // decrement the cooldown timer
-    else if (!this.waveInProgress && this.waveCooldown > 0) {
+    else if (!this.waveInProgress && this.waveCooldown > 0 && pause === false) {
       this.waveCooldown--;
       if (this.waveCooldown <= 0) {
         this.startNextWave();
@@ -339,6 +370,6 @@ class WaveManager {
   draw() {
     textSize(30);
     fill(0);
-    text(`Wave ${this.currentWaveIndex}/${this.waveArray.length}`, 280, 40);
+    text(`Wave ${this.currentWaveIndex}/${this.waveArray.length}`, 250, 40);
   }
 }
