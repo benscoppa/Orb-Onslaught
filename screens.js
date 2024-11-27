@@ -194,11 +194,11 @@ function optionScreenDraw() {
   
   textSize(15);
   noStroke();
-  text("The options scetion contains modifiers that can make the game", 180, 100);
+  text("The options section contains modifiers that can make the game", 180, 100);
   text("easier or harder. You may want to start with easier modifiers", 180, 120);
   text("while you learn how each tower and enemy type works and", 180, 140);
   text("then move on to a challenge. Each modifer can be adjusted", 180, 160);
-  text("seperatedly to create many diffrent replayable experiences.", 180, 180);
+  text("seperatedly to create many different replayable experiences.", 180, 180);
   
   // Add dummy options for changing gamemodes
   textSize(20);

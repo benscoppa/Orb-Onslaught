@@ -49,15 +49,22 @@ function createShop() {
   // create the shop
   shop = new Shop(650, 0);
   
+  noStroke();
   // get an image of cannon for shop
   shopCannon = new Cannon(30, 25, []);
-  noStroke();
   clear();
   shopCannon.draw();
   shopCannonImage = get(0, 0, 60, 50);
   
+  // get an image of tesla for the shop
+  shopTesla = new Tesla(30, 26, []);
+  clear();
+  shopTesla.draw();
+  shopTeslaImage = get(0, 0, 60, 50);
+  
   // add coins to be drawn
   shopCoins.push(new CoinIcon(677.5, 137.5, 15));
+  shopCoins.push(new CoinIcon(677.5, 232.5, 15));
 }
 
 
@@ -87,6 +94,10 @@ function gameScreen() {
     buildTower.draw();
   }
   
+  // update and draw the wave manager
+  waveManager.update();
+  waveManager.draw();
+  
   // draw each tower and shoot
   for (var j = towers.length - 1; j >= 0; j--) {
     var tower = towers[j];
@@ -95,10 +106,6 @@ function gameScreen() {
     }
     tower.draw();
   }
-  
-  // update and draw the wave manager
-  waveManager.update();
-  waveManager.draw();
   
   // game over if lives get to 0
   if (gameLives <= 0) {

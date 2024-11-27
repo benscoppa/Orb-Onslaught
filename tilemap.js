@@ -211,7 +211,7 @@ class TileMap {
     var startTiles = [];
     
     // iterate through the tile map and add each object
-    for (var i=0; i<this.tilemap.length; i++) {
+    for (var i=0; i < this.tilemap.length; i++) {
       for (var j = 0; j < this.tilemap[i].length; j++) {
         var tile;
         var x = j * 50;
@@ -294,8 +294,9 @@ class TileMap {
       var { x, y, path } = stack.pop();
       var key = `${x},${y}`;
 
-      // continue if the tile was alreay vidited
+      // continue if the tile was alreay visited
       if (visited.has(key)) continue;
+      
       visited.add(key);
 
       // convert from tile cordinates to pixel cordinates

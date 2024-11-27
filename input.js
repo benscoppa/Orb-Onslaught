@@ -76,10 +76,23 @@ function mouseClicked() {
         shop.expensiveTimer = 10;
       }
     }
+    // if the tesla is selected purchase a new tesla
+    if ((xCor >= shop.x + 5) && (xCor <= shop.x + 72.5) && (yCor >= shop.y + 155) && (yCor <= shop.y + 245)) {
+      // if there are enough coins to buy the cannon
+      if (gameCoins >= 70) {
+        buildTower = new Tesla(xCor, yCor, []);
+        building = true;
+      }
+      // animation for cannon being too expensive
+      else if (gameCoins < 70) {
+        shop.teslaExpensive = true;
+        shop.expensiveTimer = 10;
+      }
+    }
   }
   // if building is true either place the tower or return it to the shop
   else if (startGame === true && building === true) {
-    // return cannon to the shop
+    // return tower to the shop
     if ((xCor >= shop.x - 20) && (xCor <= shop.x + 120) && (yCor >= shop.y) && (yCor <= shop.y + 365)) {
       buildTower = null;
       building = false;

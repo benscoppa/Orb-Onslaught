@@ -80,6 +80,8 @@ var shop;
 // cannon shop image
 var shopCannonImage;
 var shopCannon;
+var shopTeslaImage;
+var shopTesla;
 
 // array to store coin for the shop
 var shopCoins = [];

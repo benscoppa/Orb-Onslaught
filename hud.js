@@ -11,6 +11,7 @@ class Shop {
     this.x = x;
     this.y = y;
     this.cannonExpensive = false;
+    this.teslaExpensie = false;
     this.expensiveTimer = 0;
   }
   
@@ -37,8 +38,10 @@ class Shop {
     if (this.expensiveTimer > 0) {
       this.expensiveTimer -= 1;
     }
+    // reset all timers
     else if (this.expensiveTimer === 0) {
       this.cannonExpensive = false;
+      this.teslaExpensie = false;
     }
     
     // draw placeholders for towers
@@ -52,16 +55,19 @@ class Shop {
     fill(70, 130, 180);
     rect(77.5, 60, 67.5, 90);
     
-    fill(70, 130, 180);
+    fill(180, 180, 70);
+    if (this.teslaExpensie === true) {
+      fill(255, 59, 48);
+    }
     rect(5, 155, 67.5, 90);
     
-    fill(70, 130, 180);
+    fill(180, 180, 70);
     rect(77.5, 155, 67.5, 90);
     
-    fill(70, 130, 180);
+    fill(130, 70, 180);
     rect(5, 250, 67.5, 90);
     
-    fill(70, 130, 180);
+    fill(130, 70, 180);
     rect(77.5, 250, 67.5, 90);
     
     textSize(15);
@@ -71,6 +77,10 @@ class Shop {
     image(shopCannonImage, 7.5, 65);
     text("Cannon", 12.5, 123.5);
     text("40", 40, 142.5);
+    
+    image(shopTeslaImage, 7.5, 159);
+    text("Tesla", 21, 218.5);
+    text("70", 40, 237.5);
     
     pop();
   }
