@@ -49,22 +49,84 @@ function createShop() {
   // create the shop
   shop = new Shop(650, 0);
   
-  noStroke();
-  // get an image of cannon for shop
-  shopCannon = new Cannon(30, 25, []);
-  clear();
-  shopCannon.draw();
-  shopCannonImage = get(0, 0, 60, 50);
-  
-  // get an image of tesla for the shop
-  shopTesla = new Tesla(30, 26, []);
-  clear();
-  shopTesla.draw();
-  shopTeslaImage = get(0, 0, 60, 50);
-  
   // add coins to be drawn
   shopCoins.push(new CoinIcon(677.5, 137.5, 15));
   shopCoins.push(new CoinIcon(677.5, 232.5, 15));
+  shopCoins.push(new CoinIcon(747.5, 137.5, 15));
+}
+
+
+/*
+  This function creates images of each tower and projectile.
+*/
+function towerImages() {
+  
+  noStroke();
+  // get an image of cannon
+  cannon = new Cannon(30, 25, []);
+  clear();
+  cannon.draw();
+  cannonImage = get(0, 0, 60, 50);
+  
+  // get an image of arrow
+  arrow = new Arrow(50, 25, []);
+  clear();
+  arrow.draw();
+  arrowImage = get(0, 0, 60, 50);
+  
+  // get an image of crossbow
+  crossbow = new Crossbow(30, 25, []);
+  clear();
+  crossbow.draw();
+  crossbowImage = get(0, 0, 60, 50);
+  
+  // loaded crossbow
+  arrow.draw();
+  crossbowLoadedImage = get(0, 0, 60, 50);
+  
+  // get an image of tesla
+  tesla = new Tesla(30, 30, []);
+  clear();
+  tesla.draw();
+  teslaImage = get(0, 0, 60, 60);
+}
+
+
+/*
+  This function creates images of each orb.
+*/
+function orbImages() {
+  
+  noStroke();
+  // get an image of blue orb
+  blueOrb = new BlueOrb(30, 25, []);
+  clear();
+  blueOrb.draw();
+  blueOrbImage = get(0, 0, 60, 50);
+  
+  // hit marker orb
+  clear();
+  blueOrb.damage = true;
+  blueOrb.draw();
+  hitOrbImage = get(0, 0, 60, 50);
+  
+  // get an image of yellow orb
+  yellowOrb = new YellowOrb(30, 25, []);
+  clear();
+  yellowOrb.draw();
+  yellowOrbImage = get(0, 0, 60, 50);
+  
+  // get an image of orange orb
+  orangeOrb = new OrangeOrb(30, 25, []);
+  clear();
+  orangeOrb.draw();
+  orangeOrbImage = get(0, 0, 60, 50);
+  
+  // get an image of red orb
+  redOrb = new RedOrb(30, 25, []);
+  clear();
+  redOrb.draw();
+  redOrbImage = get(0, 0, 60, 50);
 }
 
 
@@ -91,7 +153,7 @@ function gameScreen() {
   // handle the build tower object if there is one
   if (buildTower != null) {
     handleBuildTower(buildTower);
-    buildTower.draw();
+    buildTower.drawImage();
   }
   
   // update and draw the wave manager
@@ -104,7 +166,7 @@ function gameScreen() {
     if (pause === false) {
       tower.shoot();
     }
-    tower.draw();
+    tower.drawImage();
   }
   
   // game over if lives get to 0

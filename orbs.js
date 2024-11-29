@@ -44,7 +44,7 @@ class BlueOrb {
     // draw the orb
     stroke(0);
     strokeWeight(2);
-    // hit marker
+    // hit marker for hit orb image
     if (this.damage) {
       fill(200, 50, 50);
       this.damageTimer--;
@@ -70,6 +70,34 @@ class BlueOrb {
     fill(0);
     ellipse(-6.6, -4.4, 2.5, 2.5);
     ellipse(6.6, -4.4, 2.5, 2.5);
+    pop();
+  }
+  
+  
+  /*
+    This function draws the orb from an image.
+  */
+  drawImage() {
+    
+    push();
+    translate(this.x, this.y);
+    
+    imageMode(CENTER);
+    // hit marker
+    if (this.damage) {
+      image(hitOrbImage, 0, 0);
+      this.damageTimer--;
+
+      // turn of effect after timer
+      if (this.damageTimer <= 0) {
+        this.damage = false;
+      }
+    } 
+    else {
+      image(blueOrbImage, 0, 0);
+    }
+    imageMode(CORNERS);
+    
     pop();
   }
   
@@ -163,20 +191,9 @@ class YellowOrb {
     // draw the orb
     stroke(0);
     strokeWeight(2);
-    // hit marker
-    if (this.damage) {
-      fill(200, 50, 50);
-      this.damageTimer--;
-
-      // turn of effect after timer
-      if (this.damageTimer <= 0) {
-        this.damage = false;
-      }
-    } 
-    // otherwise yellow color
-    else {
-      fill(175, 175, 0);
-    }
+    
+    // yellow color
+    fill(175, 175, 0);
     ellipse(0, 0, 35, 35);
 
     // add eyes
@@ -189,6 +206,33 @@ class YellowOrb {
     fill(0);
     ellipse(-6.6, -4.4, 2.5, 2.5);
     ellipse(6.6, -4.4, 2.5, 2.5);
+    pop();
+  }
+  
+  /*
+    This function draws the orb from an image.
+  */
+  drawImage() {
+    
+    push();
+    translate(this.x, this.y);
+    
+    imageMode(CENTER);
+    // hit marker
+    if (this.damage) {
+      image(hitOrbImage, 0, 0);
+      this.damageTimer--;
+
+      // turn of effect after timer
+      if (this.damageTimer <= 0) {
+        this.damage = false;
+      }
+    } 
+    else {
+      image(yellowOrbImage, 0, 0);
+    }
+    imageMode(CORNERS);
+    
     pop();
   }
   
@@ -288,20 +332,9 @@ class OrangeOrb {
     // draw the orb
     stroke(0);
     strokeWeight(2);
-    // hit marker
-    if (this.damage) {
-      fill(200, 50, 50);
-      this.damageTimer--;
-
-      // turn of effect after timer
-      if (this.damageTimer <= 0) {
-        this.damage = false;
-      }
-    } 
-    // otherwise orange color
-    else {
-      fill(200, 130, 20);
-    }
+    
+    // orange color
+    fill(200, 130, 20);
     ellipse(0, 0, 35, 35);
 
     // add eyes
@@ -314,6 +347,33 @@ class OrangeOrb {
     fill(0);
     ellipse(-6.6, -4.4, 2.5, 2.5);
     ellipse(6.6, -4.4, 2.5, 2.5);
+    pop();
+  }
+  
+  /*
+    This function draws the orb from an image.
+  */
+  drawImage() {
+    
+    push();
+    translate(this.x, this.y);
+    
+    imageMode(CENTER);
+    // hit marker
+    if (this.damage) {
+      image(hitOrbImage, 0, 0);
+      this.damageTimer--;
+
+      // turn of effect after timer
+      if (this.damageTimer <= 0) {
+        this.damage = false;
+      }
+    } 
+    else {
+      image(orangeOrbImage, 0, 0);
+    }
+    imageMode(CORNERS);
+    
     pop();
   }
   
@@ -395,7 +455,7 @@ class RedOrb {
     // the hearts taken when reaching end of path
     this.heartsTaken = 25;
     // coins given when defeated
-    this.coinsGiven = 20;
+    this.coinsGiven = 25;
   }
   
   /*
@@ -407,20 +467,9 @@ class RedOrb {
     // draw the orb
     stroke(0);
     strokeWeight(2);
-    // hit marker
-    if (this.damage) {
-      fill(200, 50, 50);
-      this.damageTimer--;
-
-      // turn of effect after timer
-      if (this.damageTimer <= 0) {
-        this.damage = false;
-      }
-    } 
-    // otherwise red color
-    else {
-      fill(220, 0, 0);
-    }
+    
+    // red color
+    fill(245, 0, 0);
     ellipse(0, 0, 35, 35);
 
     // add eyes
@@ -433,6 +482,33 @@ class RedOrb {
     fill(0);
     ellipse(-6.6, -4.4, 2.5, 2.5);
     ellipse(6.6, -4.4, 2.5, 2.5);
+    pop();
+  }
+  
+  /*
+    This function draws the orb from an image.
+  */
+  drawImage() {
+    
+    push();
+    translate(this.x, this.y);
+    
+    imageMode(CENTER);
+    // hit marker
+    if (this.damage) {
+      image(hitOrbImage, 0, 0);
+      this.damageTimer--;
+
+      // turn of effect after timer
+      if (this.damageTimer <= 0) {
+        this.damage = false;
+      }
+    } 
+    else {
+      image(redOrbImage, 0, 0);
+    }
+    imageMode(CORNERS);
+    
     pop();
   }
   
@@ -532,7 +608,7 @@ class WaveCreator {
     for (var i = this.wave.length - 1; i >= 0; i--) {
       var orb = this.wave[i];
       if (orb.spawnTimer <= 0) {
-        orb.draw();
+        orb.drawImage();
         if (pause === false) {
           orb.move();
         }

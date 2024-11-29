@@ -77,14 +77,35 @@ var tilemap
 // shop
 var shop;
 
-// cannon shop image
-var shopCannonImage;
-var shopCannon;
-var shopTeslaImage;
-var shopTesla;
+// tower and projectile images
+var cannonImage;
+var cannon;
+var crossbowImage;
+var crossbow;
+var crossbowLoadedImage;
+var arrowImage;
+var arrow;
+var teslaImage;
+var tesla;
+
+// orb images
+var hitOrbImage
+var blueOrbImage;
+var blueOrb;
+var yellowOrbImage;
+var yellowOrb;
+var orangeOrbImage;
+var orangeOrb;
+var redOrbImage;
+var redOrb;
 
 // array to store coin for the shop
 var shopCoins = [];
+
+// costs for diffrent towers
+var cannonCost = 40;
+var crossbowCost = 60;
+var teslaCost = 70;
 
 // keep track of game health and coin 
 var gameCoins = 100;

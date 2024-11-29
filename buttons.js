@@ -125,6 +125,9 @@ class MenuButton {
       startGame = true;
       // initialize the shop
       createShop();
+      // create tower and orb images
+      towerImages();
+      orbImages();
       // initialize the main game
       initializeGame();
     }
@@ -330,10 +333,10 @@ class OptionsButton {
         livesScaler = 1 / gameLives;
       }
       else if (this.health === true) {
-        heathScaler = 1.5;
+        heathScaler = 1.4;
       }
       else if (this.speed === true) {
-        speedScaler = 1.3;
+        speedScaler = 1.2;
       }
     }
     else {

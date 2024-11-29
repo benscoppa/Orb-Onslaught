@@ -66,26 +66,39 @@ function mouseClicked() {
     // if the cannon is selected purchase a new cannon
     if ((xCor >= shop.x + 5) && (xCor <= shop.x + 72.5) && (yCor >= shop.y + 60) && (yCor <= shop.y + 150)) {
       // if there are enough coins to buy the cannon
-      if (gameCoins >= 40) {
+      if (gameCoins >= cannonCost) {
         buildTower = new Cannon(xCor, yCor, []);
         building = true;
       }
       // animation for cannon being too expensive
-      else if (gameCoins < 40) {
+      else if (gameCoins < cannonCost) {
         shop.cannonExpensive = true;
+        shop.expensiveTimer = 10;
+      }
+    }
+    // if the crossbow is selected purchase a new crossbow
+    if ((xCor >= shop.x + 77.5) && (xCor <= shop.x + 145) && (yCor >= shop.y + 60) && (yCor <= shop.y + 150)) {
+      // if there are enough coins to buy the cannon
+      if (gameCoins >= crossbowCost) {
+        buildTower = new Crossbow(xCor, yCor, []);
+        building = true;
+      }
+      // animation for cannon being too expensive
+      else if (gameCoins < crossbowCost) {
+        shop.crossbowExpensive = true;
         shop.expensiveTimer = 10;
       }
     }
     // if the tesla is selected purchase a new tesla
     if ((xCor >= shop.x + 5) && (xCor <= shop.x + 72.5) && (yCor >= shop.y + 155) && (yCor <= shop.y + 245)) {
       // if there are enough coins to buy the cannon
-      if (gameCoins >= 70) {
+      if (gameCoins >= teslaCost) {
         buildTower = new Tesla(xCor, yCor, []);
         building = true;
       }
       // animation for cannon being too expensive
-      else if (gameCoins < 70) {
-        shop.teslaExpensive = true;
+      else if (gameCoins < teslaCost) {
+        shop.teslaExpensie = true;
         shop.expensiveTimer = 10;
       }
     }
@@ -103,9 +116,18 @@ function mouseClicked() {
       // give it the current wave
       buildTower.currentWave = waveManager.currentWave.wave;
       towers.push(buildTower);
-      buildTower = null;
       building = false;
-      gameCoins -= 40;
+      // subtract the towers cost from coins
+      if (buildTower instanceof Cannon) {
+        gameCoins -= cannonCost;
+      }
+      else if (buildTower instanceof Crossbow) {
+        gameCoins -= crossbowCost;
+      }
+      else if (buildTower instanceof Tesla) {
+        gameCoins -= teslaCost;
+      }
+      buildTower = null;
     }
   }
   

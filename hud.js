@@ -12,6 +12,7 @@ class Shop {
     this.y = y;
     this.cannonExpensive = false;
     this.teslaExpensie = false;
+    this.crossbowExpensive = false;
     this.expensiveTimer = 0;
   }
   
@@ -42,17 +43,22 @@ class Shop {
     else if (this.expensiveTimer === 0) {
       this.cannonExpensive = false;
       this.teslaExpensie = false;
+      this.crossbowExpensive = false;
     }
+    
+    strokeWeight(1);
     
     // draw placeholders for towers
     fill(70, 130, 180);
-    strokeWeight(1);
     if (this.cannonExpensive === true) {
       fill(255, 59, 48);
     }
     rect(5, 60, 67.5, 90);
     
     fill(70, 130, 180);
+    if (this.crossbowExpensive === true) {
+      fill(255, 59, 48);
+    }
     rect(77.5, 60, 67.5, 90);
     
     fill(180, 180, 70);
@@ -70,17 +76,21 @@ class Shop {
     fill(130, 70, 180);
     rect(77.5, 250, 67.5, 90);
     
-    textSize(15);
+    textSize(13);
     fill(0);
     
     // draw the icon of each tower in the shop
-    image(shopCannonImage, 7.5, 65);
-    text("Cannon", 12.5, 123.5);
-    text("40", 40, 142.5);
+    image(cannonImage, 7.5, 65);
+    text("Cannon", 15, 124.5);
+    text(cannonCost, 40, 142.5);
     
-    image(shopTeslaImage, 7.5, 159);
-    text("Tesla", 21, 218.5);
-    text("70", 40, 237.5);
+    image(crossbowImage, 80, 65);
+    text("Crossbow", 82, 124.5);
+    text(crossbowCost, 110, 142.5);
+    
+    image(teslaImage, 7.5, 155);
+    text("Tesla", 23, 219.5);
+    text(teslaCost, 40, 237.5);
     
     pop();
   }
