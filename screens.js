@@ -104,10 +104,10 @@ function instructionScreenDraw() {
     
     // add the cannons
     instructionsOneCannonOne.shoot();
-    instructionsOneCannonOne.draw();
+    instructionsOneCannonOne.drawImage();
     
     instructionsOneCannonTwo.shoot();
-    instructionsOneCannonTwo.draw();
+    instructionsOneCannonTwo.drawImage();
   }
   
   // second set of instructions

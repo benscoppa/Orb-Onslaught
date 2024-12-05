@@ -2,7 +2,7 @@
   This class creates a start button that can be pressed to mobve from the title screen to the options screen.
 */
 class StartButton {
-
+  
   /*
     The constructor sets the starting property of the start button.
     var x - the x position of the start button
@@ -13,7 +13,7 @@ class StartButton {
     this.y = y;
     this.buttonTimer = 0;
   }
-
+  
   /*
     This function draws the start button. 
   */
@@ -33,7 +33,7 @@ class StartButton {
     text("START", 50, 45);
     pop();
   }
-
+  
   /*
     This function is called when the start button is pressed advancing to option screen. 
   */
@@ -42,6 +42,11 @@ class StartButton {
     this.y += 3;
     this.buttonTimer = 12;
     instructionScreen = true;
+    // initialize the shop
+    createShop();
+    // create tower and orb images
+    towerImages();
+    orbImages();
   }
 }
 
@@ -50,7 +55,7 @@ class StartButton {
   This class creates menu button for progressing through the instructions and options.
 */
 class MenuButton {
-
+  
   /*
     The constructor sets the starting property of the menu button.
     var x - the x position of the start button
@@ -62,7 +67,7 @@ class MenuButton {
     this.buttonTimer = 0;
     this.play = false;
   }
-
+  
   /*
     This function draws the start button. 
   */
@@ -87,11 +92,11 @@ class MenuButton {
       fill(42, 185, 42);
       rect(5, 5, 210, 50);
       fill(0);
-      text("PLAY", 60, 45);
+      text("PLAY", 60, 45);      
     }
     pop();
   }
-
+  
   /*
     This function is called when the menu button is pressed advancing through instructions and options. 
   */
@@ -123,11 +128,6 @@ class MenuButton {
     // start the game
     else if (optionScreen === true) {
       startGame = true;
-      // initialize the shop
-      createShop();
-      // create tower and orb images
-      towerImages();
-      orbImages();
       // initialize the main game
       initializeGame();
     }
@@ -139,7 +139,7 @@ class MenuButton {
   This class creates returb button for returning to the options screen.
 */
 class ReturnButton {
-
+  
   /*
     The constructor sets the starting property of the return button.
     var x - the x position of the start button
@@ -150,7 +150,7 @@ class ReturnButton {
     this.y = y;
     this.buttonTimer = 0;
   }
-
+  
   /*
     This function draws the start button. 
   */
@@ -167,10 +167,10 @@ class ReturnButton {
     fill(90, 90, 170);
     rect(5, 5, 380, 50);
     fill(0);
-    text("RETURN TO OPTIONS", 37, 40);
+    text("RETURN TO OPTIONS", 37, 40);   
     pop();
   }
-
+  
   /*
     This function is called when the menu button is pressed advancing through instructions and options. 
   */
@@ -193,7 +193,7 @@ class ReturnButton {
   This class creates options button for chaanging the difficulty modifiers.
 */
 class OptionsButton {
-
+  
   /*
     The constructor sets the starting property of the options button.
     var x - the x position of the start button
@@ -213,7 +213,7 @@ class OptionsButton {
     this.medium = false;
     this.hard = false;
   }
-
+  
   /*
     This function draws the options button. 
   */
@@ -245,7 +245,7 @@ class OptionsButton {
       // mouth
       noFill();
       strokeWeight(4);
-      arc(150, 29, 14, 11, PI * (1 / 8), PI * (7 / 8));
+      arc(150, 29, 14, 11, PI*(1/8), PI*(7/8));
       // eyes
       ellipse(145, 21, 2, 2);
       ellipse(155, 21, 2, 2);
@@ -276,7 +276,7 @@ class OptionsButton {
       if (this.lives === true) {
         text("One", 20, 35);
       }
-      else if (this.coins === true) {
+      else if (this.coins === true){
         text("Half", 20, 35);
       }
       else {
@@ -289,14 +289,14 @@ class OptionsButton {
       // mouth
       noFill();
       strokeWeight(4);
-      arc(150, 35, 14, 11, PI * (9 / 8), PI * (15 / 8));
+      arc(150, 35, 14, 11, PI*(9/8), PI*(15/8));
       // eyes
       ellipse(145, 21, 2, 2);
       ellipse(155, 21, 2, 2);
     }
     pop();
   }
-
+  
   /*
     This function is called when the menu button is pressed advancing through instructions and options. 
   */

@@ -316,7 +316,6 @@ class Tesla {
     for (var i = this.lightningArray.length - 1; i >= 0; i--) {
       var bolt = this.lightningArray[i];
       bolt.update();
-      bolt.draw();
 
       // delete bolt if timer expired
       if (bolt.timer <= 0) {
