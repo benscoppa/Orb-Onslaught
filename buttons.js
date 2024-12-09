@@ -358,3 +358,164 @@ class OptionsButton {
     }
   }
 }
+
+/*
+  This class creates wave start button to manually start waves.
+*/
+class WaveStartButton {
+  
+  /*
+    The constructor sets the starting property of the wave start button.
+    var x - the x position of the wave start button
+    var y - the y position of the wave start button
+  */
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.buttonTimer = 0;
+    this.canStartWave = true;
+  }
+  
+  /*
+    This function draws the wave start button. 
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    // Color and no border
+    noStroke();
+    // Create the rectangle of the options button
+    fill(60);
+    rect(0, 0, 35, 35);
+    
+    // color based on if wave can start.
+    if (this.canStartWave) {
+      fill(200);
+    }
+    else {
+      fill(120);
+    }
+    rect(3, 3, 29, 29);
+    
+    // add play button
+    fill(0);
+    triangle(9, 8, 9, 27, 26, 17.5);
+    
+    pop();
+  }
+  
+  /*
+    This function is called when the wave start button is pressed. 
+  */
+  pressed() {
+    // press button down
+    this.y += 3;
+    this.canStartWave = false;
+    
+    // start the next wave
+    waveManager.startNextWave();
+  }
+  
+  /*
+    This function is called when the wave start button is unpressed. 
+  */
+  unpressed() {
+    // press button down
+    this.y -= 3;
+    this.canStartWave = true;
+  }
+}
+
+
+/*
+  This class creates auto wave button to auto start waves.
+*/
+class AutoWaveButton {
+  
+  /*
+    The constructor sets the starting property of the auto wave button.
+    var x - the x position of the button
+    var y - the y position of the button
+  */
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.buttonTimer = 0;
+    this.down = false;
+  }
+  
+  /*
+    This function draws the auto wave button. 
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    // Color and no border
+    noStroke();
+    // Create the rectangle of the auto wave button
+    fill(60);
+    rect(0, 0, 35, 35);
+    
+    // color based on if pressed down
+    if (this.down === false) {
+      fill(200);
+    }
+    else {
+      fill(120);
+    }
+    rect(3, 3, 29, 29);
+    
+    // add auto button
+    fill(0);
+    noStroke();
+    ellipse(17.5, 17.5, 22, 22);
+    
+    // color based on if pressed down
+    if (this.down === false) {
+      fill(200);
+    }
+    else {
+      fill(120);
+    }
+    
+    // draw arrows
+    ellipse(17.5, 17.5, 13, 13);
+    rect(15, 5, 6, 7);
+    triangle(15, 5, 24, 5, 21, 12);
+    rect(14, 23, 6, 7);
+    triangle(20, 30, 11, 30, 14, 23);
+    
+    fill(0);
+    triangle(12, 5.5, 15, 15, 19, 9);
+    triangle(23, 29.5, 20, 20, 16, 26);
+    
+    pop();
+  }
+  
+  /*
+    This function is called when the wave start button is pressed. 
+  */
+  pressed() {
+    // press button down
+    this.y += 3;
+    this.down = true;
+    
+    // press wave start button as well if can start wave
+    if (waveStartButton.canStartWave === true) {
+      waveStartButton.pressed();
+    }
+    // set auto waves to true
+    waveManager.autoWaves = true;
+  }
+  
+  /*
+    This function is called when the wave start button is unpressed. 
+  */
+  unpressed() {
+    // unpress button
+    this.y -= 3;
+    this.down = false;
+    // set auto waves to false
+    waveManager.autoWaves = false;
+  }
+}

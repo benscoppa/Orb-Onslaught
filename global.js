@@ -44,6 +44,10 @@ var livesButton;
 // return to options screen after game ends
 var returnToOptionsButton;
 
+// wave management buttons
+var waveStartButton;
+var autoWaveButton;
+
 // instuctions one tilemap object
 var instructrionsOneTilemap;
 

@@ -131,9 +131,22 @@ function mouseClicked() {
     }
   }
   
+  // handle wave manager buttons
+  if (startGame === true) {
+    if ((xCor >= waveStartButton.x) && (xCor <= waveStartButton.x + 35) && (yCor >= waveStartButton.y) && (yCor < waveStartButton.y + 35) && waveStartButton.canStartWave === true) {
+      waveStartButton.pressed();
+    }
+    else if ((xCor >= autoWaveButton.x) && (xCor <= autoWaveButton.x + 35) && (yCor >= autoWaveButton.y) && (yCor < autoWaveButton.y + 35) && autoWaveButton.down === false) {
+      autoWaveButton.pressed();
+    }
+    else if ((xCor >= autoWaveButton.x) && (xCor <= autoWaveButton.x + 35) && (yCor >= autoWaveButton.y + 3) && (yCor < autoWaveButton.y + 38) && autoWaveButton.down === true) {
+      autoWaveButton.unpressed();
+    }
+  }
+  
   // if the game is over or won
   if (gameOver === true || gameWon === true) {
-    // if retuen button is clicked return to options screen
+    // if retun button is clicked return to options screen
     if ((xCor >= returnToOptionsButton.x) && (xCor <= returnToOptionsButton.x + 390) && (yCor >= returnToOptionsButton.y) && (yCor < returnToOptionsButton.y + 60)) {
       returnToOptionsButton.pressed();
     }

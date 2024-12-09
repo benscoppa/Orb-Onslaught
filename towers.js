@@ -518,8 +518,8 @@ class Crossbow {
     // Rotate to face orb
     rotate(this.angle);
     imageMode(CENTER);
-    // display loaded arrow if no orbs in range and wave started
-    if (this.displayArrow === true && this.currentWave.length > 0) {
+    // display loaded arrow if no orbs in range and wave in progress
+    if (this.displayArrow === true && waveManager.waveInProgress === true) {
       image(crossbowLoadedImage, 0, 0);
     }
     else {

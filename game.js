@@ -28,7 +28,7 @@ function initializeGame() {
   
   // game screen coin and heart
   gameHeart = new HeartIcon(25, 30, 30);
-  gameCoin =  new CoinIcon(140, 30, 30);
+  gameCoin =  new CoinIcon(130, 30, 30);
   
   // reset the towers array
   towers = [];
@@ -38,7 +38,10 @@ function initializeGame() {
   
   // create a wave  manager to handle the 2D array of waves
   waveManager = new WaveManager(waveArray, 475, -30);
-  waveManager.startNextWave();
+  
+  // create wave start button
+  waveStartButton = new WaveStartButton(300, 10);
+  autoWaveButton = new AutoWaveButton(340, 10);
 }
 
 
@@ -136,19 +139,24 @@ function orbImages() {
 function gameScreen() {
   // draw the main tilemap
   tilemap.draw();
+  
+  // update the wave manager
+  waveManager.update();
+  
+  // draw each tower and shoot
+  for (var j = towers.length - 1; j >= 0; j--) {
+    var tower = towers[j];
+    if (pause === false && waveManager.currentWaveIndex > 0) {
+      tower.shoot();
+    }
+    tower.drawImage();
+  }
+  
   // draw the shop
   shop.draw();
   for (var i  = shopCoins.length - 1; i >= 0; i--) {
     shopCoins[i].draw();
   }
-  
-  // display lives and coins
-  textSize(40);
-  fill(0);
-  text(gameLives, 50, 45);
-  gameHeart.draw();
-  text(gameCoins, 165, 45);
-  gameCoin.draw();
   
   // handle the build tower object if there is one
   if (buildTower != null) {
@@ -156,18 +164,24 @@ function gameScreen() {
     buildTower.drawImage();
   }
   
-  // update and draw the wave manager
-  waveManager.update();
+  // display lives and coins
+  textSize(40);
+  fill(0);
+  text(gameLives, 50, 45);
+  gameHeart.draw();
+  text(gameCoins, 155, 45);
+  gameCoin.draw();
+  
+  // update and draw the wave manager hud
   waveManager.draw();
   
-  // draw each tower and shoot
-  for (var j = towers.length - 1; j >= 0; j--) {
-    var tower = towers[j];
-    if (pause === false) {
-      tower.shoot();
-    }
-    tower.drawImage();
-  }
+  // Add a shadow for buttons
+  fill(0);
+  rect(300, 13, 35, 35);
+  rect(340, 13, 35, 35);
+  // draw wave management buttons
+  waveStartButton.draw();
+  autoWaveButton.draw();
   
   // game over if lives get to 0
   if (gameLives <= 0) {
