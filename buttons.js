@@ -519,3 +519,99 @@ class AutoWaveButton {
     waveManager.autoWaves = false;
   }
 }
+
+
+/*
+  This class creates towers button that plus up window to read about each tower.
+*/
+class TowersButton {
+  
+  /*
+    The constructor sets the starting property of the towers button.
+    var x - the x position of the button
+    var y - the y position of the button
+  */
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.buttonTimer = 0;
+  }
+  
+  /*
+    This function draws the towers button. 
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    // Color and no border
+    noStroke();
+    // Create the rectangle of the auto wave button
+    fill(60);
+    rect(0, 0, 140, 50);
+    fill(90, 90, 170);
+    rect(3, 3, 134, 44);
+    fill(0);
+    textSize(27);
+    textAlign(CENTER, CENTER);
+    text('TOWERS', 70, 28);
+    textAlign(LEFT, BASELINE);
+    pop();
+  }
+  
+  /*
+    This function is called when the towers button is pressed. 
+  */
+  pressed() {
+    this.y += 3;
+    this.buttonTimer = 12;
+    towersMenu = true;
+    pause = true;
+  }
+}
+
+/*
+  This class creates button to exit out of tower menu.
+*/
+class TowersExitButton {
+  
+  /*
+    The constructor sets the starting property of the towers button.
+    var x - the x position of the button
+    var y - the y position of the button
+  */
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.buttonTimer = 0;
+  }
+  
+  /*
+    This function draws the towers exit button. 
+  */
+  draw() {
+    push();
+    translate(this.x, this.y);
+    // Color and no border
+    noStroke();
+    // Create the rectangle of the button
+    fill(60);
+    rect(0, 0, 35, 35);
+    fill(240, 50, 50);
+    rect(3, 3, 29, 29);
+    fill(0);
+    textSize(27);
+    textAlign(CENTER, CENTER);
+    text('X', 17.5, 20);
+    textAlign(LEFT, BASELINE);
+    pop();
+  }
+  
+  /*
+    This function is called when the towers exit button is pressed. 
+  */
+  pressed() {
+    this.y += 3;
+    this.buttonTimer = 12;
+    pause = false;
+  }
+}

@@ -150,13 +150,11 @@ function instructionScreenDraw() {
     text("take extra damage. Click a tower to learn how it effects Orbs.", 180, 180);
     
     // add the cannons
-    instructionsTwoCannonOne.cannonball();
-    instructionsTwoCannonOne.draw();
     instructionsTwoCannonOne.shoot();
+    instructionsTwoCannonOne.drawImage();
     
-    instructionsTwoCannonTwo.cannonball();
-    instructionsTwoCannonTwo.draw();
     instructionsTwoCannonTwo.shoot();
+    instructionsTwoCannonTwo.drawImage();
   }
   
   // Add a shadow for button
@@ -267,6 +265,27 @@ function gameOverScreen() {
   rect(205, 333, 390, 60);
   // draw options button
   returnToOptionsButton.draw()
+}
+
+
+/*
+  This handles displaying the towers menu screen.
+*/
+function towerMenuScreen() {
+  // Add background for towers window
+  fill(200);
+  stroke(0);
+  strokeWeight(2);
+  rect(145, 85, 510, 440);
+  
+  // shadow for screen button
+  fill(0);
+  rect(607, 103, 35, 35);
+  
+  towersExitButton.draw();
+  
+  // draw image of cannon
+  image(cannonImage, 300, 130, 180, 150);
 }
 
 

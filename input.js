@@ -131,7 +131,7 @@ function mouseClicked() {
     }
   }
   
-  // handle wave manager buttons
+  // handle wave manager buttons and towers button
   if (startGame === true) {
     if ((xCor >= waveStartButton.x) && (xCor <= waveStartButton.x + 35) && (yCor >= waveStartButton.y) && (yCor < waveStartButton.y + 35) && waveStartButton.canStartWave === true) {
       waveStartButton.pressed();
@@ -141,6 +141,16 @@ function mouseClicked() {
     }
     else if ((xCor >= autoWaveButton.x) && (xCor <= autoWaveButton.x + 35) && (yCor >= autoWaveButton.y + 3) && (yCor < autoWaveButton.y + 38) && autoWaveButton.down === true) {
       autoWaveButton.unpressed();
+    }
+    else if ((xCor >= towersButton.x) && (xCor <= towersButton.x + 140) && (yCor >= towersButton.y) && (yCor < towersButton.y + 50)) {
+      towersButton.pressed();
+    }
+  }
+  
+  // handle tower exit button
+  if (towersMenu === true) {
+    if ((xCor >= towersExitButton.x) && (xCor <= towersExitButton.x + 35) && (yCor >= towersExitButton.y) && (yCor < towersExitButton.y + 35)) {
+      towersExitButton.pressed();
     }
   }
   

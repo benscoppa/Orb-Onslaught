@@ -220,7 +220,7 @@ class WaveCreator {
           orb.move();
         }
       } 
-      else {
+      else if (pause === false) {
         orb.spawnTimer -= 1;
       }
       
@@ -322,7 +322,7 @@ class WaveManager {
     textSize(20);
     fill(0);
     textAlign(CENTER, CENTER);
-    text(`Wave`, 260, 22);
+    text('WAVE', 260, 22);
     text(`${this.currentWaveIndex}/${this.waveArray.length}`, 260, 42);
     textAlign(LEFT, BASELINE);
   }

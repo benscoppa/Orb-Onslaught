@@ -42,6 +42,12 @@ function initializeGame() {
   // create wave start button
   waveStartButton = new WaveStartButton(300, 10);
   autoWaveButton = new AutoWaveButton(340, 10);
+  
+  // towers menu buttons
+  towersButton = new TowersButton(655, 355);
+  towersExitButton = new TowersExitButton(607, 100);
+  buttons.push(towersButton);
+  buttons.push(towersExitButton);
 }
 
 
@@ -179,9 +185,12 @@ function gameScreen() {
   fill(0);
   rect(300, 13, 35, 35);
   rect(340, 13, 35, 35);
+  rect(655, 358, 140, 50);
   // draw wave management buttons
   waveStartButton.draw();
   autoWaveButton.draw();
+  // draw tower menu button
+  towersButton.draw();
   
   // game over if lives get to 0
   if (gameLives <= 0) {

@@ -90,7 +90,7 @@ function setup() {
   instructionsCoin =  new CoinIcon(235, 230, 20);
   instructionsHeart = new HeartIcon(175, 230, 20);
   
-  // menu buutton for returning to options
+  // menu button for returning to options
   returnToOptionsButton = new ReturnButton(205, 330);
   buttons.push(returnToOptionsButton);
 }
@@ -141,6 +141,15 @@ function draw() {
   if (startGame === true && menuButton.buttonTimer <= 0) {
     optionScreen = false;
     gameScreen();
+  }
+  
+  // towers menu screen
+  if (towersMenu === true) {
+    towerMenuScreen();
+    
+    if (pause === false && towersExitButton.buttonTimer <= 0) {
+      towersMenu = false;
+    }
   }
   
   // game over screen

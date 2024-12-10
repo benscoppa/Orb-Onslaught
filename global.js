@@ -21,6 +21,8 @@ var startGame = false;
 var gameOver = false;
 var pause = false;
 var gameWon = false;
+var towersMenu = false;
+var towersExitButton = false;
 // booleans for progresing through instructions
 var instructionOne = true;
 var instructionTwo = false;
@@ -47,6 +49,9 @@ var returnToOptionsButton;
 // wave management buttons
 var waveStartButton;
 var autoWaveButton;
+
+// towers menu buttons
+var towersButton;
 
 // instuctions one tilemap object
 var instructrionsOneTilemap;
